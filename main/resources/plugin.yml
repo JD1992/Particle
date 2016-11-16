@@ -1,0 +1,13 @@
+main: bz.dcr.deinEffekt.DeinEffekt
+author: JD1992
+version: 1.0
+name: deinParticle
+depend: [Vault]
+commands:
+  deineffekt:
+    description: Hauptcommand für das Plugin
+    usage: /deineffekt
+  effekte:
+    description: Aufruf der Effektauswahl
+    usage: /effekte
+    aliases: [dpe]
