@@ -1,6 +1,6 @@
-package bz.dcr.deinEffekt.events;
+package me.jd1992.particle.events;
 
-import bz.dcr.deinEffekt.DeinEffekt;
+import me.jd1992.particle.Particle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class PlayerJoinListener implements Listener {
 	
-	private final DeinEffekt plugin;
+	private final Particle plugin;
 	
-	public PlayerJoinListener ( DeinEffekt plugin ) {
+	public PlayerJoinListener ( Particle plugin) {
 		this.plugin = plugin;
 	}
 	

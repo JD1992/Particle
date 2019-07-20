@@ -1,6 +1,6 @@
-package bz.dcr.deinEffekt.util;
+package me.jd1992.particle.util;
 
-import bz.dcr.deinEffekt.DeinEffekt;
+import me.jd1992.particle.Particle;
 import com.mongodb.Block;
 import com.mongodb.ConnectionString;
 import com.mongodb.async.SingleResultCallback;
@@ -28,7 +28,7 @@ import static com.mongodb.client.model.Filters.eq;
  */
 public class MongoHandler {
 	
-	private DeinEffekt    plugin   = null;
+	private Particle      plugin   = null;
 	private MongoClient   client   = null;
 	private MongoDatabase database = null;
 	
@@ -41,7 +41,7 @@ public class MongoHandler {
 	 * - Datenbank bekommen -> getDatabase(Name)
 	 * - Collections bekommen -> getCollection(Name)
 	 */
-	public MongoHandler ( DeinEffekt plugin ) {
+	public MongoHandler ( Particle plugin) {
 		try {
 			this.plugin = plugin;
 			this.client = this.connect();
@@ -133,7 +133,7 @@ public class MongoHandler {
 		Block < Document > printDocumentBlock = doc -> {
 			Player player = Bukkit.getPlayer( UUID.fromString( doc.getString( "uuid" ) ) );
 			if ( ! player.isOnline() ) { return; }
-			ParticleObject particle = null;
+			ParticleObject particle;
 			int id = doc.getInteger( "eChosen" );
 			particle = getParticle( id );
 			plugin.pEffect.put( player, new Pair <>( particle, 0 ) );
@@ -251,14 +251,14 @@ public class MongoHandler {
 			itemStack.setItemMeta( itemMeta );
 			
 			ParticleObject pEffekt = new ParticleObject(
-					Particle.valueOf( doc.getString( "effekt" ) ),
-					doc.getDouble( "x" ), doc.getDouble( "y" ), doc.getDouble( "z" ),
-					doc.getDouble( "xd" ), doc.getDouble( "yd" ), doc.getDouble( "zd" ),
-					doc.getInteger( "count" ), doc.getDouble( "extra" ),
-					doc.getInteger( "delay" ), doc.getInteger( "cost" ),
-					doc.getBoolean( "active" ),
-					itemStack,
-					doc.getInteger( "id" )
+                    org.bukkit.Particle.valueOf(doc.getString("effekt")),
+                    doc.getDouble( "x" ), doc.getDouble( "y" ), doc.getDouble( "z" ),
+                    doc.getDouble( "xd" ), doc.getDouble( "yd" ), doc.getDouble( "zd" ),
+                    doc.getInteger( "count" ), doc.getDouble( "extra" ),
+                    doc.getInteger( "delay" ), doc.getInteger( "cost" ),
+                    doc.getBoolean( "active" ),
+                    itemStack,
+                    doc.getInteger( "id" )
 			);
 			plugin.pEffectList.add( pEffekt );
 		};
@@ -406,7 +406,7 @@ public class MongoHandler {
 		try {
 			id = Integer.parseInt( args[ 1 ] );
 		} catch ( Exception ex ) {
-			plugin.sendPluginMessage( commandSender, "&4/deineffekt activate <ID>" );
+			plugin.sendPluginMessage( commandSender, "&4/particle activate <ID>" );
 			if ( plugin.debug ) { ex.printStackTrace(); }
 		}
 		if ( id == - 1 ) { return; }
@@ -432,7 +432,7 @@ public class MongoHandler {
 		try {
 			id = Integer.parseInt( args[ 1 ] );
 		} catch ( Exception ex ) {
-			plugin.sendPluginMessage( commandSender, "&4/deineffekt deactivate <ID>" );
+			plugin.sendPluginMessage( commandSender, "&4/particle deactivate <ID>" );
 			if ( plugin.debug ) { ex.printStackTrace(); }
 		}
 		if ( id == - 1 ) { return; }
@@ -504,7 +504,7 @@ public class MongoHandler {
 			);
 			getEffektList();
 		} catch ( Exception ex ) {
-			plugin.sendPluginMessage( commandSender, "&4/deineffekt setitem <ID> <Material> <Name> <Anzahl> <Schaden>" );
+			plugin.sendPluginMessage( commandSender, "&4/particle setitem <ID> <Material> <Name> <Anzahl> <Schaden>" );
 			if ( plugin.debug ) { ex.printStackTrace(); }
 		}
 	}
@@ -527,7 +527,7 @@ public class MongoHandler {
 			
 			this.bought.insertOne( doc, ( result, t ) -> System.out.println( "Inserted bought!" ) );
 		} catch ( Exception ex ) {
-			commandSender.sendMessage( plugin.prefix + "/deineffekt buy <ID>" );
+			commandSender.sendMessage( plugin.prefix + "/particle buy <ID>" );
 			if ( plugin.debug ) { ex.printStackTrace(); }
 		}
 		
@@ -549,7 +549,7 @@ public class MongoHandler {
 					createBought( player, false );
 					return;
 				}
-				String[] bought = null;
+				String[] bought;
 				String sb = doc.getString( "effekt" );
 				if ( sb.length() > 2 ) {
 					bought = sb.split( "," );
@@ -650,7 +650,7 @@ public class MongoHandler {
 					createBought( player, true );
 					return;
 				}
-				String[] bought = null;
+				String[] bought;
 				String sb = doc.getString( "effekt" );
 				if ( sb.length() > 2 ) {
 					bought = sb.split( "," );
@@ -658,7 +658,7 @@ public class MongoHandler {
 					bought = ( "-1," + sb ).split( "," );
 				}
 				int pos = 0;
-				Inventory inventory = null;
+				Inventory inventory;
 				int active = 0;
 				for ( ParticleObject entry : plugin.pEffectList ) {
 						if ( entry.isActive() ) { active++; }
@@ -740,7 +740,7 @@ public class MongoHandler {
 		player.closeInventory();
 		this.bought.find( eq( "uuid", player.getUniqueId().toString() ) ).first( ( doc, tr ) -> {
 			String sb = doc.getString( "effekt" );
-			sb += "," + String.valueOf( id );
+			sb += "," + id;
 			this.bought.updateOne( eq( "uuid", player.getUniqueId().toString() ),
 					new Document( "$set", new Document( "effekt", sb ) ),
 					( result, t ) -> plugin.sendConfigString( player, "message.bought" ) );
@@ -783,7 +783,7 @@ public class MongoHandler {
 					plugin.sendConfigString( commandSender, "message.effectDeleted" )
 			);
 		} catch ( Exception ex ) {
-			plugin.sendPluginMessage( commandSender, "&4/deineffekt delete <ID>" );
+			plugin.sendPluginMessage( commandSender, "&4/particle delete <ID>" );
 			if ( plugin.debug ) { ex.printStackTrace(); }
 		}
 		getEffektList();

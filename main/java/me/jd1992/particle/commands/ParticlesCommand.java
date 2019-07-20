@@ -1,9 +1,8 @@
-package bz.dcr.deinEffekt.commands;
+package me.jd1992.particle.commands;
 
-import bz.dcr.deinEffekt.DeinEffekt;
-import bz.dcr.deinEffekt.util.ParticleObject;
+import me.jd1992.particle.Particle;
+import me.jd1992.particle.util.ParticleObject;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * Command /deineffekt mit Subcommands:
+ * Command /particles mit Subcommands:
  * - Erstellung
  * - Veränderung
  * - Anzeige Item Veränderung
@@ -21,11 +20,11 @@ import org.bukkit.inventory.meta.ItemMeta;
  * - Deaktivierung
  * - Reloaden der Config
  */
-public class CommandDeinEffekt implements CommandExecutor {
+public class ParticlesCommand implements CommandExecutor {
 	
-	private final DeinEffekt plugin;
+	private final Particle plugin;
 	
-	public CommandDeinEffekt ( DeinEffekt plugin ) {
+	public ParticlesCommand (Particle plugin) {
 		this.plugin = plugin;
 	}
 	
@@ -87,12 +86,12 @@ public class CommandDeinEffekt implements CommandExecutor {
 		if ( ! ( commandSender instanceof Player ) ) { return; }
 		Player player = ( Player ) commandSender;
 		
-		Particle particle;
-		ParticleObject particleObject;
-		ParticleObject particleObj;
-		Double x, y, z, xd, yd, zd, extra;
-		int count, delay, cost;
-		int id;
+		org.bukkit.Particle particle;
+		ParticleObject      particleObject;
+		ParticleObject      particleObj;
+		double              x, y, z, xd, yd, zd, extra;
+		int                 count, delay, cost;
+		int                 id;
 		
 		try {
 			x = Double.parseDouble( args[ 2 ] );
@@ -118,7 +117,7 @@ public class CommandDeinEffekt implements CommandExecutor {
 						false, particleObj.getItemStack(), particleObj.getDbID() );
 				
 			} else {
-				particle = Particle.valueOf( args[ 1 ] );
+				particle = org.bukkit.Particle.valueOf(args[ 1 ]);
 				Material material = Material.DIRT;
 				String name = "§5TEST: " + particle.toString();
 				int amount = 1;
@@ -135,19 +134,19 @@ public class CommandDeinEffekt implements CommandExecutor {
 		} catch ( Exception ex ) {
 			if ( update ) {
 				commandSender.sendMessage(
-						plugin.prefix + "§4/deineffekt update <ID> <x y z> " +
+						plugin.prefix + "§4/particle update <ID> <x y z> " +
 						"<xd yd zd> <Geschwindigkeit> <Anzahl> <Verzögerung> <Kosten> §c§loder" );
 				commandSender.sendMessage(
-						plugin.prefix + "§4/deineffekt update <ID> <x y z> " +
+						plugin.prefix + "§4/particle update <ID> <x y z> " +
 						"<R G B> <Helligkeit> 0 <Verzögerung> <Kosten>" );
 				commandSender.sendMessage(
 						plugin.prefix + "§4Stelle sicher das es diese ID wirklich gibt." );
 			} else {
 				commandSender.sendMessage(
-						plugin.prefix + "§4/deineffekt create <Partikelname> <x y z> " +
+						plugin.prefix + "§4/particle create <Partikelname> <x y z> " +
 						"<xd yd zd> <Geschwindigkeit> <Anzahl> <Verzögerung> <Kosten> §c§loder" );
 				commandSender.sendMessage(
-						plugin.prefix + "§4/deineffekt create <Partikelname> <x y z> " +
+						plugin.prefix + "§4/particle create <Partikelname> <x y z> " +
 						"<R G B> <Helligkeit> 0 <Verzögerung> <Kosten>" );
 			}
 			if ( plugin.debug ) { ex.printStackTrace(); }
@@ -157,9 +156,9 @@ public class CommandDeinEffekt implements CommandExecutor {
 	/**
 	 * Gibt den Particel zur ID zurück
 	 *
-	 * @param id ID des zu bekommenden Particle
+	 * @param id ID des zu bekommenden ParticleCommand
 	 *
-	 * @return Particle passend zur ID oder null falls nicht vorhanden
+	 * @return ParticleCommand passend zur ID oder null falls nicht vorhanden
 	 */
 	private ParticleObject getParticle ( int id ) {
 		

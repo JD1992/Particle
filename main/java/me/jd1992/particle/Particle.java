@@ -1,12 +1,12 @@
-package bz.dcr.deinEffekt;
+package me.jd1992.particle;
 
-import bz.dcr.deinEffekt.commands.CommandDeinEffekt;
-import bz.dcr.deinEffekt.commands.CommandEffekte;
-import bz.dcr.deinEffekt.events.InventoryClickListener;
-import bz.dcr.deinEffekt.events.NPCClickListener;
-import bz.dcr.deinEffekt.events.PlayerJoinListener;
-import bz.dcr.deinEffekt.util.MongoHandler;
-import bz.dcr.deinEffekt.util.ParticleObject;
+import me.jd1992.particle.commands.ParticleCommand;
+import me.jd1992.particle.commands.ParticlesCommand;
+import me.jd1992.particle.events.InventoryClickListener;
+import me.jd1992.particle.events.NPCClickListener;
+import me.jd1992.particle.events.PlayerJoinListener;
+import me.jd1992.particle.util.MongoHandler;
+import me.jd1992.particle.util.ParticleObject;
 import javafx.util.Pair;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -25,11 +25,11 @@ import java.util.logging.Logger;
 /**
  * Hauptklasse mit allem relevanten zum Betrieb des Plugins
  */
-public class DeinEffekt extends JavaPlugin {
+public class Particle extends JavaPlugin {
 	
 	/**
 	 * TODO
-	 * + Delay in Runnable (Particle abhängig -> bei Erstellung)
+	 * + Delay in Runnable (ParticleCommand abhängig -> bei Erstellung)
 	 * + onEnable -> Effekte auslesen und zwischenspeichern
 	 * + Spielerbefehl (/effekte)
 	 * + Inventar um zu wählen
@@ -64,9 +64,9 @@ public class DeinEffekt extends JavaPlugin {
 	public Economy economy;
 	public boolean economyActive;
 	
-	private BukkitTask scheduler = null;
-	public MongoHandler mongoHandler;
-	public HashMap < Player, Pair < ParticleObject, Integer > > pEffect = new HashMap <>();
+	private BukkitTask                                           scheduler = null;
+	public  MongoHandler                                         mongoHandler;
+	public  HashMap < Player, Pair < ParticleObject, Integer > > pEffect = new HashMap <>();
 	
 	public ArrayList < ParticleObject > pEffectList = new ArrayList <>();
 	
@@ -140,9 +140,9 @@ public class DeinEffekt extends JavaPlugin {
 	 * Config Standard-Werte für Permissions
 	 */
 	private void setConfigPermissions () {
-		config.addDefault( "permission.admin", "deineffekt.admin" );
-		config.addDefault( "permission.team", "deineffekt.team" );
-		config.addDefault( "permission.vip", "deineffekt.vip" );
+		config.addDefault( "permission.admin", "particle.admin" );
+		config.addDefault( "permission.team", "particle.team" );
+		config.addDefault( "permission.vip", "particle.vip" );
 	}
 	
 	/**
@@ -169,8 +169,8 @@ public class DeinEffekt extends JavaPlugin {
 		config.addDefault( "plugin.items.price.currency", "DM" );
 		
 		
-		config.addDefault( "plugin.userPrefix", "&6&o&ldeinEffekt&8>" );
-		config.addDefault( "plugin.consolePrefix", "[deinEffekt]" );
+		config.addDefault( "plugin.userPrefix", "&6&o&lParticle&8>" );
+		config.addDefault( "plugin.consolePrefix", "[ParticleCommand]" );
 		config.addDefault( "plugin.runnableDelay", 1 );
 		config.addDefault( "plugin.debug", false );
 	}
@@ -179,7 +179,7 @@ public class DeinEffekt extends JavaPlugin {
 	 * Config Standard-Werte für Chatnachrichten
 	 */
 	private void setConfigMessages () {
-		config.addDefault( "message.command", "&4/deineffekt <reload/create/update/delete/setitem/activate/deactivate>" );
+		config.addDefault( "message.command", "&4/particle <reload/create/update/delete/setitem/activate/deactivate>" );
 		
 		config.addDefault( "message.noConsole", "&rDer Befehl darf nur Ingame ausgeführt werden." );
 		config.addDefault( "message.noPermission", "&4Du hast keine Berechtigung für diese Aktion." );
@@ -230,17 +230,17 @@ public class DeinEffekt extends JavaPlugin {
 	 * Initialisierung der Kommands
 	 */
 	private void initCommands () {
-		this.getCommand( "deineffekt" ).setExecutor( new CommandDeinEffekt( this ) );
-		this.getCommand( "effekte" ).setExecutor( new CommandEffekte( this ) );
+		this.getCommand( "particle" ).setExecutor( new ParticlesCommand(this ));
+		this.getCommand( "effekte" ).setExecutor( new ParticleCommand(this ));
 	}
 	
 	/**
 	 * Initialisierung der Events
 	 */
 	private void initListener () {
-		this.getServer().getPluginManager().registerEvents( new PlayerJoinListener( this ), this );
-		this.getServer().getPluginManager().registerEvents( new InventoryClickListener( this ), this );
-		this.getServer().getPluginManager().registerEvents( new NPCClickListener( this ), this );
+		this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this ), this);
+		this.getServer().getPluginManager().registerEvents(new InventoryClickListener(this ), this);
+		this.getServer().getPluginManager().registerEvents(new NPCClickListener(this ), this);
 	}
 	
 	/**

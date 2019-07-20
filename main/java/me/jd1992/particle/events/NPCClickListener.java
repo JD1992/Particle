@@ -1,6 +1,6 @@
-package bz.dcr.deinEffekt.events;
+package me.jd1992.particle.events;
 
-import bz.dcr.deinEffekt.DeinEffekt;
+import me.jd1992.particle.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,9 +12,9 @@ import org.bukkit.inventory.EquipmentSlot;
  */
 public class NPCClickListener implements Listener {
 	
-	private final DeinEffekt plugin;
+	private final Particle plugin;
 	
-	public NPCClickListener ( DeinEffekt plugin ) {
+	public NPCClickListener ( Particle plugin) {
 		this.plugin = plugin;
 	}
 	

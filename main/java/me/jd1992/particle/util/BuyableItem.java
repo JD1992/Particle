@@ -1,4 +1,4 @@
-package bz.dcr.deinEffekt.util;
+package me.jd1992.particle.util;
 
 import org.bukkit.inventory.ItemStack;
 

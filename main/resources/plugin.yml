@@ -1,13 +1,12 @@
-main: bz.dcr.deinEffekt.DeinEffekt
+main: ParticleCommand
 author: JD1992
-version: 1.0
-name: deinParticle
+version: ${project.version}
+name: ParticleCommand
 depend: [Vault]
 commands:
-  deineffekt:
+  particles:
     description: Hauptcommand für das Plugin
-    usage: /deineffekt
-  effekte:
+    usage: /particles
+  particle:
     description: Aufruf der Effektauswahl
-    usage: /effekte
-    aliases: [dpe]
+    usage: /particle

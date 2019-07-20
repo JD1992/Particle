@@ -1,8 +1,8 @@
-package bz.dcr.deinEffekt.events;
+package me.jd1992.particle.events;
 
-import bz.dcr.deinEffekt.DeinEffekt;
-import bz.dcr.deinEffekt.util.ItemHandler;
-import bz.dcr.deinEffekt.util.ParticleObject;
+import me.jd1992.particle.Particle;
+import me.jd1992.particle.util.ItemHandler;
+import me.jd1992.particle.util.ParticleObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,10 +21,10 @@ import java.util.ArrayList;
  */
 public class InventoryClickListener implements Listener {
 	
-	private final DeinEffekt plugin;
-	private       Player     player;
+	private final Particle plugin;
+	private       Player   player;
 	
-	public InventoryClickListener ( DeinEffekt plugin ) {
+	public InventoryClickListener ( Particle plugin) {
 		this.plugin = plugin;
 	}
 	
@@ -209,7 +209,7 @@ public class InventoryClickListener implements Listener {
 		int id = - 1;
 		try {
 			int control = Integer.parseInt( displayName.substring( 1, 2 ) ) * 2;
-			sid = displayName.substring( displayName.length() - control, displayName.length() ).replace( "§", "" );
+			sid = displayName.substring( displayName.length() - control).replace("§", "");
 			id = Integer.parseInt( sid );
 		} catch ( Exception ex ) {
 			if ( plugin.debug ) { ex.printStackTrace(); }

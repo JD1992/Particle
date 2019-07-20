@@ -1,6 +1,6 @@
-package bz.dcr.deinEffekt;
+package me.jd1992.particle;
 
-import bz.dcr.deinEffekt.util.ParticleObject;
+import me.jd1992.particle.util.ParticleObject;
 import javafx.util.Pair;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -14,9 +14,9 @@ import java.util.Map;
  */
 class RunnableEffekt implements Runnable {
 	
-	private final DeinEffekt plugin;
+	private final Particle plugin;
 	
-	RunnableEffekt ( DeinEffekt plugin ) {
+	RunnableEffekt ( Particle plugin) {
 		this.plugin = plugin;
 	}
 	

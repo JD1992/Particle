@@ -1,6 +1,5 @@
-package bz.dcr.deinEffekt.commands;
+package me.jd1992.particle.commands;
 
-import bz.dcr.deinEffekt.DeinEffekt;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,11 +8,11 @@ import org.bukkit.entity.Player;
 /**
  * Command /effekte: Öffnung der Effektauswahl
  */
-public class CommandEffekte implements CommandExecutor {
+public class ParticleCommand implements CommandExecutor {
 	
-	private final DeinEffekt plugin;
+	private final me.jd1992.particle.Particle plugin;
 	
-	public CommandEffekte ( DeinEffekt plugin ) {
+	public ParticleCommand (me.jd1992.particle.Particle plugin) {
 		this.plugin = plugin;
 	}
 	
